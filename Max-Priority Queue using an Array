@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+class PriorityQueue {
+    int *arr;
+    int size;
+    int count;
+    
+public:
+    PriorityQueue(int size) {
+        this->size = size;
+        arr = new int[size];
+        count = 0;
+    }
+
+    void insert(int value) {
+        if (count == size) {
+            cout << "Priority Queue is full!\n";
+            return;
+        }
+        arr[count++] = value;
+    }
+
+    int getHighestPriorityIndex() {
+        int highestPriorityIndex = 0;
+        for (int i = 1; i < count; i++) {
+            if (arr[i] > arr[highestPriorityIndex]) {
+                highestPriorityIndex = i;
+            }
+        }
+        return highestPriorityIndex;
+    }
+
+    void deleteHighestPriority() {
+        if (count == 0) {
+            cout << "Priority Queue is empty!\n";
+            return;
+        }
+        
+        int highestPriorityIndex = getHighestPriorityIndex();
+        cout << "Removing element: " << arr[highestPriorityIndex] << endl;
+
+        for (int i = highestPriorityIndex; i < count - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+        count--;
+    }
+
+    void display() {
+        if (count == 0) {
+            cout << "Priority Queue is empty!\n";
+            return;
+        }
+
+        cout << "Priority Queue: ";
+        for (int i = 0; i < count; i++) {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+
+    ~PriorityQueue() {
+        delete[] arr;
+    }
+};
+
+int main() {
+    PriorityQueue pq(5);
+
+    pq.insert(10);
+    pq.insert(30);
+    pq.insert(20);
+    pq.insert(50);
+    pq.insert(40);
+
+    pq.display();
+
+    pq.deleteHighestPriority();
+    pq.display();
+
+    pq.deleteHighestPriority();
+    pq.display();
+
+    return 0;
+}
